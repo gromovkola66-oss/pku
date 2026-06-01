@@ -139,11 +139,11 @@ public class FirstPersonController : MonoBehaviour
 
         // Сохраняем вертикальную скорость (по оси гравитации)
         currentUp = gravityController != null ? gravityController.GetCurrentUp() : Vector3.up;
-        float verticalVelocity = Vector3.Dot(rb.velocity, currentUp);
+        float verticalVelocity = Vector3.Dot(rb.linearVelocity, currentUp);
 
         // Применяем движение
         Vector3 newVelocity = moveDirection + currentUp * verticalVelocity;
-        rb.velocity = newVelocity;
+        rb.linearVelocity = newVelocity;
     }
 
     /// <summary>
