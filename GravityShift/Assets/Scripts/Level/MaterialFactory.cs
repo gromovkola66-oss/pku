@@ -15,9 +15,8 @@ public static class MaterialFactory
     /// </summary>
     private static Shader GetShader()
     {
-        // Пробуем URP шейдер, если нет — стандартный, если нет — Diffuse (гарантированно есть)
-        Shader shader = Shader.Find("Universal Render Pipeline/Lit");
-        if (shader == null) shader = Shader.Find("Standard");
+        // Используем Standard шейдер (Built-in Render Pipeline, гарантированно есть в Unity 6)
+        Shader shader = Shader.Find("Standard");
         if (shader == null) shader = Shader.Find("Diffuse");
         return shader;
     }
@@ -65,13 +64,15 @@ public static class MaterialFactory
         Material mat = new Material(GetShader());
         mat.name = name;
 
-        // Настройки прозрачности
-        mat.SetFloat("_Surface", 1); // Transparent
-        mat.SetFloat("_Blend", 0); // Alpha
+        // Настройки прозрачности (Standard shader)
         mat.SetOverrideTag("RenderType", "Transparent");
+        mat.SetFloat("_Mode", 3); // Transparent mode для Standard shader
         mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
         mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
         mat.SetInt("_ZWrite", 0);
+        mat.DisableKeyword("_ALPHATEST_ON");
+        mat.EnableKeyword("_ALPHABLEND_ON");
+        mat.DisableKeyword("_ALPHAPREMULTIPLY_ON");
         mat.renderQueue = 3000;
         mat.color = color;
 
