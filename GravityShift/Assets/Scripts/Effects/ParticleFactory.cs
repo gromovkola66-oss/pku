@@ -29,7 +29,12 @@ public static class ParticleFactory
         obj.transform.localPosition = Vector3.zero;
 
         ParticleSystem ps = obj.AddComponent<ParticleSystem>();
+        ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+
         var main = ps.main;
+        main.duration = 5f;
+        main.loop = true;
+        main.playOnAwake = false;
         main.startLifetime = 3f;
         main.startSpeed = 1f;
         main.startSize = 0.05f;
@@ -47,6 +52,7 @@ public static class ParticleFactory
         var renderer = obj.GetComponent<ParticleSystemRenderer>();
         renderer.material = GetParticleMaterial(new Color(0.7f, 0.8f, 1f, 0.3f));
 
+        ps.Play();
         return ps;
     }
 
@@ -59,14 +65,17 @@ public static class ParticleFactory
         obj.transform.position = position;
 
         ParticleSystem ps = obj.AddComponent<ParticleSystem>();
+        ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+
         var main = ps.main;
+        main.duration = 0.2f;
+        main.loop = false;
         main.startLifetime = 0.5f;
         main.startSpeed = 10f;
         main.startSize = 0.2f;
         main.maxParticles = 50;
         main.startColor = new Color(0.3f, 0.6f, 1f, 0.8f);
-        main.loop = false;
-        main.duration = 0.2f;
+        main.playOnAwake = false;
 
         var emission = ps.emission;
         emission.rateOverTime = 0;
@@ -94,14 +103,17 @@ public static class ParticleFactory
         obj.transform.position = position;
 
         ParticleSystem ps = obj.AddComponent<ParticleSystem>();
+        ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+
         var main = ps.main;
+        main.duration = 0.1f;
+        main.loop = false;
+        main.playOnAwake = false;
         main.startLifetime = 0.8f;
         main.startSpeed = 3f;
         main.startSize = 0.15f;
         main.maxParticles = 20;
         main.startColor = new Color(0.7f, 0.7f, 0.7f, 0.6f);
-        main.loop = false;
-        main.duration = 0.1f;
 
         var emission = ps.emission;
         emission.rateOverTime = 0;
@@ -129,14 +141,17 @@ public static class ParticleFactory
         obj.transform.position = position;
 
         ParticleSystem ps = obj.AddComponent<ParticleSystem>();
+        ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+
         var main = ps.main;
+        main.duration = 0.1f;
+        main.loop = false;
+        main.playOnAwake = false;
         main.startLifetime = 0.6f;
         main.startSpeed = 8f;
         main.startSize = 0.1f;
         main.maxParticles = 30;
         main.startColor = new Color(1f, 0.2f, 0.1f, 1f);
-        main.loop = false;
-        main.duration = 0.1f;
         main.gravityModifier = 2f;
 
         var emission = ps.emission;
@@ -165,7 +180,12 @@ public static class ParticleFactory
         obj.transform.position = position;
 
         ParticleSystem ps = obj.AddComponent<ParticleSystem>();
+        ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+
         var main = ps.main;
+        main.duration = 0.1f;
+        main.loop = false;
+        main.playOnAwake = false;
         main.startLifetime = 0.8f;
         main.startSpeed = 5f;
         main.startSize = 0.15f;
