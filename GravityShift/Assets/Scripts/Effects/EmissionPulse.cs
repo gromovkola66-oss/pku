@@ -38,7 +38,10 @@ public class EmissionPulse : MonoBehaviour
         float intensity = Mathf.Lerp(minIntensity, maxIntensity,
             (Mathf.Sin(Time.time * pulseSpeed) + 1f) * 0.5f);
 
-        Color pulsedColor = baseEmissionColor.normalized * intensity;
+        // Нормализуем цвет вручную (делаем максимальный компонент = 1)
+        float maxComponent = Mathf.Max(baseEmissionColor.r, Mathf.Max(baseEmissionColor.g, baseEmissionColor.b));
+        Color normalizedColor = maxComponent > 0 ? baseEmissionColor / maxComponent : Color.white;
+        Color pulsedColor = normalizedColor * intensity;
         objectRenderer.material.SetColor("_EmissionColor", pulsedColor);
     }
 }

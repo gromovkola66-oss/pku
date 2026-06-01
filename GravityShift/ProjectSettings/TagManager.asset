@@ -15,15 +15,35 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  -
+  - ""
   - Water
   - UI
-  -
-  -
+  - ""
+  - ""
   - Ground
   - Obstacle
   - Player
   - Trigger
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
   sortingLayers:
   - name: Default
     uniqueID: 0
