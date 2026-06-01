@@ -62,8 +62,21 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    // Кешированные ссылки для Update (чтобы не вызывать FindObjectOfType каждый кадр)
+    private PlayerHealth cachedHealth;
+    private PlayerInventory cachedInventory;
+    private GravityController cachedGravity;
+    private bool cacheInitialized = false;
+
     private void Update()
     {
+        if (!cacheInitialized)
+        {
+            cachedHealth = FindObjectOfType<PlayerHealth>();
+            cachedInventory = FindObjectOfType<PlayerInventory>();
+            cachedGravity = FindObjectOfType<GravityController>();
+            if (cachedHealth != null) cacheInitialized = true;
+        }
         UpdateHUD();
     }
 
@@ -141,43 +154,40 @@ public class UIManager : MonoBehaviour
             zoneText.text = "Зона " + GameManager.Instance.CurrentZone;
 
         // Здоровье
-        PlayerHealth health = FindObjectOfType<PlayerHealth>();
-        if (health != null && healthText != null)
+        if (cachedHealth != null && healthText != null)
         {
             string hearts = "";
-            for (int i = 0; i < health.MaxHealth; i++)
+            for (int i = 0; i < cachedHealth.MaxHealth; i++)
             {
-                hearts += i < health.CurrentHealth ? "♥" : "♡";
+                hearts += i < cachedHealth.CurrentHealth ? "♥" : "♡";
             }
-            if (health.HasShield) hearts += " 🛡";
+            if (cachedHealth.HasShield) hearts += " [S]";
             healthText.text = hearts;
         }
 
         // Монеты
-        PlayerInventory inv = FindObjectOfType<PlayerInventory>();
-        if (inv != null && coinsText != null)
-            coinsText.text = "Монеты: " + inv.Coins;
+        if (cachedInventory != null && coinsText != null)
+            coinsText.text = "Монеты: " + cachedInventory.Coins;
 
         // Гравитация
-        GravityController gc = FindObjectOfType<GravityController>();
-        if (gc != null)
+        if (cachedGravity != null)
         {
             // Стрелка направления
-            Vector3 dir = gc.GetGravityDirection();
-            string arrow = "↓";
-            if (dir == Vector3.up) arrow = "↑";
-            else if (dir == Vector3.left) arrow = "←";
-            else if (dir == Vector3.right) arrow = "→";
+            Vector3 dir = cachedGravity.GetGravityDirection();
+            string arrow = "v";
+            if (dir == Vector3.up) arrow = "^";
+            else if (dir == Vector3.left) arrow = "<";
+            else if (dir == Vector3.right) arrow = ">";
             if (gravityArrowText != null) gravityArrowText.text = arrow;
 
             // Кулдаун
-            float cd = gc.GetCooldownProgress();
+            float cd = cachedGravity.GetCooldownProgress();
             if (cooldownText != null)
             {
                 if (cd >= 1f)
-                    cooldownText.text = "◆ Готово [Q/E]";
+                    cooldownText.text = "[OK] Q/E";
                 else
-                    cooldownText.text = string.Format("◇ {0:0}%", cd * 100);
+                    cooldownText.text = string.Format("[..] {0:0}%", cd * 100);
             }
         }
     }
@@ -345,7 +355,11 @@ public class UIManager : MonoBehaviour
         Text text = textObj.AddComponent<Text>();
         text.text = content;
         text.fontSize = fontSize;
-        text.font = Font.CreateDynamicFontFromOSFont("Arial", fontSize);
+        // Пытаемся найти шрифт, с fallback на встроенный
+        Font font = Font.CreateDynamicFontFromOSFont("Arial", fontSize);
+        if (font == null) font = Font.CreateDynamicFontFromOSFont("Liberation Sans", fontSize);
+        if (font == null) font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        text.font = font;
         text.color = Color.white;
         text.alignment = TextAnchor.MiddleCenter;
         text.raycastTarget = false;

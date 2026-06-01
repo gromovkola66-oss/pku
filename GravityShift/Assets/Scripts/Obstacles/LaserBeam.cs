@@ -31,6 +31,8 @@ public class LaserBeam : MonoBehaviour
     private LineRenderer lineRenderer;
     private float timer = 0f;
     private bool isActive = true;
+    private float damageCooldown = 0.5f; // Минимальный интервал урона
+    private float lastDamageTime = -10f;
 
     private void Start()
     {
@@ -87,6 +89,9 @@ public class LaserBeam : MonoBehaviour
     /// </summary>
     private void CheckForPlayer()
     {
+        // Не наносим урон чаще чем раз в damageCooldown
+        if (Time.time - lastDamageTime < damageCooldown) return;
+
         Vector3 worldStart = transform.TransformPoint(startPoint);
         Vector3 worldEnd = transform.TransformPoint(endPoint);
         Vector3 direction = (worldEnd - worldStart).normalized;
@@ -99,6 +104,7 @@ public class LaserBeam : MonoBehaviour
             if (health != null)
             {
                 health.TakeDamage(1);
+                lastDamageTime = Time.time;
             }
         }
     }

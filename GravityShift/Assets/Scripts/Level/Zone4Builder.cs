@@ -96,6 +96,8 @@ public class Zone4Builder : MonoBehaviour
         BoxCollider col = plate.GetComponent<BoxCollider>();
         col.isTrigger = true;
         PressurePlate pp = plate.AddComponent<PressurePlate>();
+        pp.SetLinkedObject(linkedDoor);
+        pp.SetStayPressed(true);
     }
 
     private System.Collections.IEnumerator Narration()

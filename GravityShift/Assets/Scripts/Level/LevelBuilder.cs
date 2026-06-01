@@ -41,9 +41,13 @@ public class LevelBuilder : MonoBehaviour
         RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
         RenderSettings.ambientLight = new Color(0.2f, 0.22f, 0.3f);
 
-        // Skybox (градиентный цвет фона)
-        Camera.main.clearFlags = CameraClearFlags.SolidColor;
-        Camera.main.backgroundColor = new Color(0.05f, 0.05f, 0.15f);
+        // Skybox (градиентный цвет фона) — настраиваем на камере после её создания
+        Camera mainCam = Camera.main;
+        if (mainCam != null)
+        {
+            mainCam.clearFlags = CameraClearFlags.SolidColor;
+            mainCam.backgroundColor = new Color(0.05f, 0.05f, 0.15f);
+        }
     }
 
     /// <summary>
@@ -230,8 +234,8 @@ public class LevelBuilder : MonoBehaviour
         finish.transform.localScale = new Vector3(3f, 0.1f, 3f);
         finish.GetComponent<Renderer>().material = MaterialFactory.Safe();
 
-        // Триггер
-        BoxCollider col = finish.AddComponent<BoxCollider>();
+        // Используем существующий BoxCollider как триггер
+        BoxCollider col = finish.GetComponent<BoxCollider>();
         col.isTrigger = true;
         col.size = Vector3.one * 1.5f;
 

@@ -17,6 +17,22 @@ public class PressurePlate : MonoBehaviour
     [Tooltip("Остаётся ли нажатой после активации")]
     [SerializeField] private bool stayPressed = false;
 
+    /// <summary>
+    /// Установить связанный объект (для программного создания)
+    /// </summary>
+    public void SetLinkedObject(GameObject obj)
+    {
+        linkedObject = obj;
+    }
+
+    /// <summary>
+    /// Установить режим "остаётся нажатой"
+    /// </summary>
+    public void SetStayPressed(bool stay)
+    {
+        stayPressed = stay;
+    }
+
     // Состояние
     private Vector3 originalPosition;
     private bool isPressed = false;

@@ -50,6 +50,16 @@ public class PlayerHealth : MonoBehaviour
     private void Start()
     {
         currentHealth = maxHealth;
+
+        // Подписываемся на DamageEffect
+        OnDamaged += () =>
+        {
+            if (PostProcessingController.Instance != null)
+                PostProcessingController.Instance.DamageEffect();
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.PlayDamage();
+            ParticleFactory.CreateDamageParticles(transform.position);
+        };
     }
 
     /// <summary>

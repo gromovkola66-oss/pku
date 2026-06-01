@@ -158,7 +158,7 @@ public class GameManager : MonoBehaviour
             playerTransform.rotation = data.rotation;
 
             Rigidbody rb = playerTransform.GetComponent<Rigidbody>();
-            if (rb != null) rb.linearVelocity = Vector3.zero;
+            if (rb != null) rb.velocity = Vector3.zero;
 
             GravityController gc = playerTransform.GetComponent<GravityController>();
             if (gc != null) gc.ForceGravityDirection(data.gravityIndex);

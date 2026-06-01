@@ -42,6 +42,12 @@ public class GravitySwitchEffect : MonoBehaviour
             ScreenShake.Instance.Shake(shakeIntensity, shakeDuration);
         }
 
+        // Пост-обработка (вспышка)
+        if (PostProcessingController.Instance != null)
+        {
+            PostProcessingController.Instance.GravitySwitchFlash();
+        }
+
         // Обновляем направление пыли
         UpdateDustDirection(newDirection);
 
