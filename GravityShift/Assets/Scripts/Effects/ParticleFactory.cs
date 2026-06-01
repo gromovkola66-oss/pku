@@ -7,6 +7,19 @@ using UnityEngine;
 public static class ParticleFactory
 {
     /// <summary>
+    /// Получить материал для частиц (с fallback)
+    /// </summary>
+    private static Material GetParticleMaterial(Color color)
+    {
+        Shader shader = Shader.Find("Particles/Standard Unlit");
+        if (shader == null) shader = Shader.Find("Sprites/Default");
+        if (shader == null) shader = Shader.Find("Standard");
+        Material mat = new Material(shader);
+        mat.color = color;
+        return mat;
+    }
+
+    /// <summary>
     /// Создать частицы пыли, летящие в направлении гравитации
     /// </summary>
     public static ParticleSystem CreateGravityDust(Transform parent)
@@ -32,8 +45,7 @@ public static class ParticleFactory
         shape.scale = new Vector3(10f, 10f, 10f);
 
         var renderer = obj.GetComponent<ParticleSystemRenderer>();
-        renderer.material = new Material(Shader.Find("Particles/Standard Unlit"));
-        renderer.material.color = new Color(0.7f, 0.8f, 1f, 0.3f);
+        renderer.material = GetParticleMaterial(new Color(0.7f, 0.8f, 1f, 0.3f));
 
         return ps;
     }
@@ -67,8 +79,7 @@ public static class ParticleFactory
         shape.radius = 0.5f;
 
         var renderer = obj.GetComponent<ParticleSystemRenderer>();
-        renderer.material = new Material(Shader.Find("Particles/Standard Unlit"));
-        renderer.material.color = new Color(0.3f, 0.6f, 1f, 0.8f);
+        renderer.material = GetParticleMaterial(new Color(0.3f, 0.6f, 1f, 0.8f));
 
         ps.Play();
         Object.Destroy(obj, 1f);
@@ -103,8 +114,7 @@ public static class ParticleFactory
         shape.radius = 0.5f;
 
         var renderer = obj.GetComponent<ParticleSystemRenderer>();
-        renderer.material = new Material(Shader.Find("Particles/Standard Unlit"));
-        renderer.material.color = new Color(0.7f, 0.7f, 0.7f, 0.4f);
+        renderer.material = GetParticleMaterial(new Color(0.7f, 0.7f, 0.7f, 0.4f));
 
         ps.Play();
         Object.Destroy(obj, 2f);
@@ -140,8 +150,7 @@ public static class ParticleFactory
         shape.radius = 0.3f;
 
         var renderer = obj.GetComponent<ParticleSystemRenderer>();
-        renderer.material = new Material(Shader.Find("Particles/Standard Unlit"));
-        renderer.material.color = new Color(1f, 0.3f, 0.1f, 1f);
+        renderer.material = GetParticleMaterial(new Color(1f, 0.3f, 0.1f, 1f));
 
         ps.Play();
         Object.Destroy(obj, 2f);
@@ -176,8 +185,7 @@ public static class ParticleFactory
         shape.radius = 0.2f;
 
         var renderer = obj.GetComponent<ParticleSystemRenderer>();
-        renderer.material = new Material(Shader.Find("Particles/Standard Unlit"));
-        renderer.material.color = color;
+        renderer.material = GetParticleMaterial(color);
 
         ps.Play();
         Object.Destroy(obj, 2f);
@@ -213,8 +221,7 @@ public static class ParticleFactory
         vel.y = 2f;
 
         var renderer = obj.GetComponent<ParticleSystemRenderer>();
-        renderer.material = new Material(Shader.Find("Particles/Standard Unlit"));
-        renderer.material.color = new Color(0.3f, 0.7f, 1f, 0.6f);
+        renderer.material = GetParticleMaterial(new Color(0.3f, 0.7f, 1f, 0.6f));
 
         return obj;
     }

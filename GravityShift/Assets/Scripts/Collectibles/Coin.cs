@@ -43,6 +43,10 @@ public class Coin : MonoBehaviour
         if (inventory != null)
         {
             inventory.AddCoins(value);
+            // Эффект подбора
+            ParticleFactory.CreateCollectBurst(transform.position, new Color(0.2f, 1f, 1f));
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.PlayCoin();
             Destroy(gameObject);
         }
     }

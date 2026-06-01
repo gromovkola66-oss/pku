@@ -15,9 +15,10 @@ public static class MaterialFactory
     /// </summary>
     private static Shader GetShader()
     {
-        // Пробуем URP шейдер, если нет — стандартный
+        // Пробуем URP шейдер, если нет — стандартный, если нет — Diffuse (гарантированно есть)
         Shader shader = Shader.Find("Universal Render Pipeline/Lit");
         if (shader == null) shader = Shader.Find("Standard");
+        if (shader == null) shader = Shader.Find("Diffuse");
         return shader;
     }
 

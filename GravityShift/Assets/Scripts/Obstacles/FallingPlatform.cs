@@ -35,6 +35,10 @@ public class FallingPlatform : MonoBehaviour
     {
         originalPosition = transform.position;
         originalRotation = transform.rotation;
+
+        // Платформа не может быть статичной — она двигается
+        gameObject.isStatic = false;
+
         platformRenderer = GetComponent<Renderer>();
         if (platformRenderer != null)
         {

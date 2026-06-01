@@ -14,12 +14,20 @@ public class GravityFuel : MonoBehaviour
     [Tooltip("Скорость вращения")]
     [SerializeField] private float rotateSpeed = 200f;
 
+    private Vector3 startPosition;
+
+    private void Start()
+    {
+        startPosition = transform.position;
+    }
+
     private void Update()
     {
         transform.Rotate(Vector3.up, rotateSpeed * Time.deltaTime);
-        // Парение
-        float y = Mathf.Sin(Time.time * 2.5f) * 0.2f;
-        transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y + y * Time.deltaTime, transform.localPosition.z);
+        // Парение вверх-вниз (синусоида от начальной позиции)
+        Vector3 pos = startPosition;
+        pos.y += Mathf.Sin(Time.time * 2.5f) * 0.2f;
+        transform.position = pos;
     }
 
     private void OnTriggerEnter(Collider other)

@@ -29,6 +29,22 @@ public class MovingObstacle : MonoBehaviour
     {
         startPosition = transform.position;
         endPosition = startPosition + moveDirection.normalized * distance;
+
+        // Добавляем kinematic Rigidbody для корректной обработки коллизий
+        if (GetComponent<Rigidbody>() == null)
+        {
+            Rigidbody rb = gameObject.AddComponent<Rigidbody>();
+            rb.isKinematic = true;
+        }
+
+        // Пульсация свечения если материал поддерживает emission
+        if (GetComponent<EmissionPulse>() == null && GetComponent<Renderer>() != null)
+        {
+            if (GetComponent<Renderer>().material.HasProperty("_EmissionColor"))
+            {
+                gameObject.AddComponent<EmissionPulse>();
+            }
+        }
     }
 
     private void Update()

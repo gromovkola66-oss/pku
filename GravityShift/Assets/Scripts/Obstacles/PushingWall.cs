@@ -36,6 +36,13 @@ public class PushingWall : MonoBehaviour
     {
         startPosition = transform.position;
         extendedPosition = startPosition + pushDirection.normalized * pushDistance;
+
+        // Kinematic Rigidbody для корректных коллизий с игроком
+        if (GetComponent<Rigidbody>() == null)
+        {
+            Rigidbody rb = gameObject.AddComponent<Rigidbody>();
+            rb.isKinematic = true;
+        }
     }
 
     private void Update()

@@ -34,6 +34,13 @@ public class Crusher : MonoBehaviour
     {
         startPosition = transform.position;
         bottomPosition = startPosition + Vector3.down * crushDistance;
+
+        // Kinematic Rigidbody для корректных коллизий
+        if (GetComponent<Rigidbody>() == null)
+        {
+            Rigidbody rb = gameObject.AddComponent<Rigidbody>();
+            rb.isKinematic = true;
+        }
     }
 
     private void Update()

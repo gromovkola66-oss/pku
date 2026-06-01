@@ -4,6 +4,7 @@ using UnityEngine;
 /// Вращающееся препятствие.
 /// Постоянно вращается вокруг заданной оси.
 /// При столкновении наносит урон.
+/// Rigidbody добавляется автоматически (kinematic) для корректной работы коллизий.
 /// </summary>
 public class RotatingObstacle : MonoBehaviour
 {
@@ -13,6 +14,16 @@ public class RotatingObstacle : MonoBehaviour
 
     [Tooltip("Скорость вращения (градусов/сек)")]
     [SerializeField] private float rotationSpeed = 90f;
+
+    private void Start()
+    {
+        // Добавляем kinematic Rigidbody для корректной обработки коллизий
+        if (GetComponent<Rigidbody>() == null)
+        {
+            Rigidbody rb = gameObject.AddComponent<Rigidbody>();
+            rb.isKinematic = true;
+        }
+    }
 
     private void Update()
     {
